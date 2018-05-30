@@ -1,48 +1,24 @@
 <?php
-function dump($var){
-    echo "<pre>";
-    var_dump($var);
-    echo "</pre>";
-}
-
-function val($name, $val){
-    echo "<div class = 'val'><span>$name:</span>";
-    if(is_array($val) || is_object($val)){
-        dump($val);
-    }else{
-        echo "<span>$val</span>";
-    }
-    echo "</div>";
-};
-
 //This should rather go to php.ini
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== ''){
-    //version for .htaccess with  RewriteRule ^(.*)$ index.php/$1 [QSA,L]
-    $request = $_SERVER['PATH_INFO'];
-    
-}else{
-    $request = $_SERVER['REQUEST_URI'];
-}
+//USE_URI_PROTOCOL is an enrironment var which can be set by .htaccess
+$uriProtocol = getenv('USE_URI_PROTOCOL')?:'REQUEST_URI';
+$request = isset($_SERVER[$uriProtocol])?$_SERVER[$uriProtocol]:'';
 
-//removing leading slash, if exists
+//removing leading slash
 $request = ltrim($request, '/');
-//getting only what's before ? (uri query string) if it exists 
+//getting only what's before ? (uri query string)
 $pos = strpos($request, '?');
 if ($pos !== false){
     $request = substr($request, 0, $pos);
 } 
 
 $requestArray     = explode('/', $request);
-val('request',$request);
-val('requestArray',$requestArray);
-
-echo '<h3>Final parsing result</h3>';
 val('controller',$requestArray[0] ?? 'undefined');
 val('method',$requestArray[1] ?? 'undefined');
-//file: index.php
+
 //assuming this file is in '/project/index.php' and then we have some subdirs like 'content' and 'blah', then
 
 echo "<h3>Checking if including the *file* is safe</h3>"; 
