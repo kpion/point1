@@ -1,8 +1,14 @@
-# Simple Single point of entry (front controller) in PHP
+# Simple Single Point of Entry (Front Controller) in PHP
 
 This project solves only one thing (hence "Point **one**" :))  - single point of entry AKA front controller pattern.
 
+Can be used as a boilerplate for very simple sites, where you have "common" things you want to share across and/or you want friendly URLs like example.com/about or example.com/action/param
+
+`index.php` file is the front controller, all the other files are just for illustration purposes.
+
 ## Setup
+
+Clone or download the project, or even just the single `index.php` file and setup your server.
 
 The instructions below explain how to tell your web server to funnel all HTTP requests to our PHP front-controller file.
 
@@ -10,7 +16,8 @@ The project comes with an example .htaccess file, so it should work out of the b
 
 Assuming the project is located in /var/www/html/point1 :
 
-## Apache vhost configuration (example)
+## Apache vhost configuration example
+
 ```
 <VirtualHost *:80>
 	ServerName point1
@@ -30,7 +37,7 @@ Assuming the project is located in /var/www/html/point1 :
 </VirtualHost>
 ```
 
-## Nginx vhost configuration (example)
+## Nginx vhost configuration example
 
 ```
   server {
@@ -91,3 +98,7 @@ A bit tricky but does the job.
 	SetEnv USE_URI_PROTOCOL PATH_INFO
 </IfModule>
 ```
+## Final notes
+
+You might want to consider moving 'pages' directory outside the document root.
+

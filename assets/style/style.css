@@ -1,0 +1,29 @@
+body {
+    margin: 0 auto;
+    max-width: 50em;
+    font-family: "Helvetica", "Arial", sans-serif;
+    line-height: 1.5;
+    padding: 4em 1em;
+    color: #555;
+}
+
+h1,h2,h3,h4,h5,strong {
+  color: #333;
+}            
+
+a{
+    text-decoration: none;
+    color: #2a9ed4;
+}
+
+header nav ul {
+    padding-left: 0px;
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+}
+
+header nav ul li {
+	display: inline-block;
+    padding: 15px;
+    padding-left: 0px;
+}
