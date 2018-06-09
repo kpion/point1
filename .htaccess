@@ -1,11 +1,13 @@
 
 <IfModule mod_rewrite.c>
 	RewriteEngine On
-	RewriteCond %{SCRIPT_FILENAME} !-d
-	RewriteCond %{REQUEST_FILENAME} !-f [OR]
-	RewriteCond %{REQUEST_URI} ^index.php
-	RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+	# if it isn't a directory or file:
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ index.php?point-url=$1 [QSA,L]
 	
-	#trick to make it simple to get the requested elements *after* index.php:
-	SetEnv USE_URI_PROTOCOL PATH_INFO
+	# we also want our index php to be passed to index.php (as ?url=...), because this way we'll know
+	# we *did* go through htaccess rewriting process, which is important.
+	RewriteRule ^(index.php)$ index.php?point-url=$1 [QSA,L]
+	
 </IfModule>

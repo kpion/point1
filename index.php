@@ -8,6 +8,7 @@ More: https://github.com/kpion/point1
 ini_set('display_errors', 1);
 error_reporting(-1);
 
+
 /////////////////
 ////Settings. 
 
@@ -24,9 +25,19 @@ $pagesDir = __DIR__ . '/pages/';
 //if nothing is passed in the url (here we don't add any file extension):
 $defaultPage = 'home';
 
-//USE_URI_PROTOCOL (environment variable) might be set e.g. in htaccess, if it is, we'll use it: 
-$uriProtocol = getenv('USE_URI_PROTOCOL')?:'REQUEST_URI';
-$request = isset($_SERVER[$uriProtocol])?$_SERVER[$uriProtocol]:'';
+$request = NULL;
+
+//this happens when an url is passed in query params, like example.com?point-url=contact
+//i.e. the .htaccess does exactly this ("point-url" is a param used by our .htaccess, it can be antything):
+if(isset($_GET['point-url'])){
+    $request = $_GET['point-url'];
+    if($request === 'index.php'){
+        $request = '';//thanks to this we will open the default (home) page
+    }
+}
+else {
+    $request = $_SERVER['REQUEST_URI'];
+}
 
 /////////////////
 //Auto resolving baseUrl

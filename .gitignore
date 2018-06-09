@@ -1,4 +1,6 @@
 /nbproject/
 /.vscode/
+/point1.code-workspace
+# my own things, tests etc:
+/.local/
 /index_off.php
-point1.code-workspace

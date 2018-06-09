@@ -8,6 +8,12 @@ For a more feature rich version see https://github.com/kpion/point2
 
 `index.php` file is the front controller, all the other files are just for illustration purposes.
 
+## Usage
+
+After setting up you can just add pages (.php files in /pages directory), they will be become available from now under example.com/yourNewPage
+
+The idea is to not use any routers here.
+
 ## Setup
 
 Clone or download the project, or even just the single `index.php` file and setup your server.
@@ -85,21 +91,28 @@ Assuming the project is located in /var/www/html/point1 :
 
 ## .htaccess file example
 
-Same thing as in apache/vhost, plus setting an environment variable 'USE_URI_PROTOCOL' to 'PATH_INFO',
-the simplest way to tell the PHP script that .htaccess is in use and that it's therefore possible that `$_SERVER['REQUEST_URI']` contains a parent dir, in case we keep multiple projects under /var/www/html and /var/www/html is our root.
+Here we pass the 'URI' part as query param (as point-url variable).
 
-A bit tricky but does the job.
+This differs from the typical way in that we also pass the 'index.php' itself.
+
+Just to be consistent (i.e. always pass something as query param, even if it's only an empty string).
 
 ```
 <IfModule mod_rewrite.c>
 	RewriteEngine On
-	RewriteCond %{SCRIPT_FILENAME} !-d
+
+	# if it isn't a directory or file:
+	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^(.*)$ index.php/$1 [QSA,L]
-	#a trick making it simpler to get the requested elements *after* index.php:
-	SetEnv USE_URI_PROTOCOL PATH_INFO
+	RewriteRule ^(.*)$ index.php?point-url=$1 [QSA,L]
+	
+	# we also want our index php to be passed to index.php (as ?url=...), because this way we'll know
+	# we *did* go through htaccess rewriting process, which is important.
+	RewriteRule ^(index.php)$ index.php?point-url=$1 [QSA,L]
+	
 </IfModule>
 ```
+
 ## Final notes
 
 You might want to consider moving 'pages' directory outside the document root.
