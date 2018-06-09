@@ -106,7 +106,7 @@ Just to be consistent (i.e. always pass something as query param, even if it's o
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^(.*)$ index.php?point-url=$1 [QSA,L]
 	
-	# we also want our index php to be passed to index.php (as ?url=...), because this way we'll know
+	# we also want our index php to be passed to index.php (as ?point-url=...), because this way we'll know
 	# we *did* go through htaccess rewriting process, which is important.
 	RewriteRule ^(index.php)$ index.php?point-url=$1 [QSA,L]
 	
