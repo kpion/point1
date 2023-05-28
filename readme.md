@@ -44,47 +44,18 @@ Assuming the project is located in /var/www/html/point1 :
 </VirtualHost>
 ```
 
-## Nginx vhost configuration example
+## Nginx vhost configuration
+
+We only change a bit the `location /` part
 
 ```
-  server {
-    listen 80;
-    server_name point1;
-    index index.php;
-    root /var/www/html/point1;
-                       
-    location / {
+...
+     location / {
+		# Front Controller -  https://github.com/kpion/point1. Every non matching request  goes to index.php
 		try_files $uri $uri/ /index.php$is_args$args;
+		# End of Single Point of Entry.
     }
-
-    location ~ \.php$ {
-    
-		# regex to split $uri to $fastcgi_script_name and $fastcgi_path
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-
-		# Check that the PHP script exists before passing it
-		try_files $fastcgi_script_name =404;
-
-		# Bypass the fact that try_files resets $fastcgi_path_info
-		# see: http://trac.nginx.org/nginx/ticket/321
-		set $path_info $fastcgi_path_info;
-		fastcgi_param PATH_INFO $path_info;
-
-		fastcgi_index index.php;
-		include fastcgi.conf;
-
-		fastcgi_pass unix:/run/php/php7.2-fpm.sock;
-    }
-
-
-    # deny access to .htaccess files, if Apache's document root
-    # concurs with nginx's one
-    #
-    location ~ /\.ht {
-      deny all;
-    }
-	
-  }
+...
 
 ```
 
