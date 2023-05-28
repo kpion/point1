@@ -4,7 +4,6 @@ This project solves only one thing (hence "Point **one**" :))  - single point of
 
 Can be used as a boilerplate for very simple sites, where you have "common" things you want to share across and/or you want friendly URLs like example.com/about or example.com/action/param
 
-For a more feature rich version see https://github.com/kpion/point2
 
 `index.php` file is the front controller, all the other files are just for illustration purposes.
 
